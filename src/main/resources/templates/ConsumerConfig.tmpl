@@ -1,0 +1,43 @@
+<#assign channelName = "${ctx.channelName}">
+<#assign schemaName = "${ctx.schemaName}">
+package ${gCtx.groupId}.${gCtx.packageName}.config;
+
+import ${gCtx.groupId}.${gCtx.packageName}.model.${ctx.schemaName};
+import com.ai.tx.core.util.AvroDeserializer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@EnableKafka
+@Configuration
+public class ${toUpperCamelCase(channelName)}ConsumerConfig {
+    @Value("${r"${spring.kafka.bootstrap-servers}"}")
+    private String kafkaBroker;
+
+    @Bean
+    public ConsumerFactory<String, ${schemaName}> consumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVER_CONFIG, kafkaBroker);
+        config.put(ConsumerConfig.AUTO_OFFSET_CONFIG, "earliest");
+        config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new AvroDeserializer<>(${schemaName}.class));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ${schemaName}>${toLowerCamelCase(channelName)}ConsumerFactoryConfig() {
+        ConcurrentKafkaListenerContainerFactory<String, ${schemaName}> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setErrorHandler(new SeekToCurrentErrorHandler());
+        return factory;
+    }
+}

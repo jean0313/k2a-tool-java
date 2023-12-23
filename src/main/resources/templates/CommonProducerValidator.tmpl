@@ -1,0 +1,17 @@
+package ${gCtx.groupId}.${gCtx.packageName}.validator;
+
+import com.ai.tx.core.validator.AbstractConsumerValidator;
+import com.ai.tx.core.validator.ValidationMetaData;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class CommonProducerValidator<T> extends AbstractProducerValidator<T> {
+
+    @Override
+    protected List<ValidationMetaData> commonValidation(List<ValidationMetaData> validations) {
+        // Add your common validations here if any
+        return new ArrayList();
+    }
+}

@@ -1,0 +1,20 @@
+<#assign channelName = "${ctx.channelName}">
+<#assign schemaName = "${ctx.schemaName}">
+<#assign upperCaseChannelName = "${toUpperCamelCase(channelName)}">
+package ${gCtx.groupId}.${gCtx.packageName}.service;
+
+import com.ai.tx.core.annotation.ProducerHandler;
+import org.springframework.messaging.Message;
+import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
+
+@Service
+public class ${upperCaseChannelName}PublisherServiceImpl implements PublisherService {
+
+    @ProducerHandler(config = "${upperCaseChannelName}ProducerConfig",
+            validator = "${upperCaseChannelName}ProducerValidator",
+            response = "${upperCaseChannelName}ProducerResponse")
+    public ListenableFuture<?> returnTransactionStatus(Message<?> message) {
+        return null;
+    }
+}

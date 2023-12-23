@@ -1,0 +1,26 @@
+<#assign channelName = "${ctx.channelName}">
+<#assign schemaName = "${ctx.schemaName}">
+<#assign upperCaseChannelName = "${toUpperCamelCase(channelName)}">
+package ${gCtx.groupId}.${gCtx.packageName}.response;
+
+import org.springframework.kafka.core.KafkaProducerException;
+import org.springframework.kafka.support.SendResult;
+
+import com.ai.tx.core.response.AbstractProducerResponse;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class Abstract${upperCaseChannelName}ProducerResponse<K, V> extends AbstractProducerResponse<K, V> {
+    @Override
+    public void onSuccess(SendResult<K, V> result) {
+        log.info("Message sent successfully!");
+
+    }
+
+    @Override
+    public void onFailure(KafkaProducerException ex) {
+        log.info("Error while sending message");
+        
+    }
+}

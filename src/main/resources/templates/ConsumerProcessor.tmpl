@@ -1,0 +1,10 @@
+<#assign channelName = "${ctx.channelName}">
+<#assign schemaName = "${ctx.schemaName}">
+package ${gCtx.groupId}.${gCtx.packageName}.consumer.processing;
+
+import ${gCtx.groupId}.${gCtx.packageName}.model.${schemaName};
+import com.ai.tx.core.model.ConsumerEventProcessor;
+
+public interface ${toUpperCamelCase(channelName)}ConsumerProcessor extends extends ConsumerEventProcessor<String, ${schemaName}> {
+
+}

@@ -1,0 +1,20 @@
+<#assign channelName = "${ctx.channelName}">
+<#assign schemaName = "${ctx.schemaName}">
+package ${gCtx.groupId}.${gCtx.packageName}.validator;
+
+import com.ai.tx.core.request.EventRequest;
+import com.ai.tx.core.validator.ValidationMetaData;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component("${toUpperCamelCase(channelName)}ProducerValidator")
+public class ${toUpperCamelCase(channelName)}ProducerValidator extends CommonProducerValidator<EventRequest> {
+
+    @Override
+    protected List<ValidationMetaData> prepareValidationMetaData() {
+        List<ValidationMetaData> validationMetaData = new ArrayList<>();
+        return validationMetaData;
+    }
+}

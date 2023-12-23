@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${gCtx.groupId}</groupId>
+    <artifactId>${gCtx.artifactId}</artifactId>
+    <version>${gCtx.version}</version>
+    <packaging>jar</packaging>
+    <name>${gCtx.artifactId}</name>
+    <description>${gCtx.description}</description>
+
+    <properties>
+        <maven.surefire.version>2.19.1</maven.surefire.version>
+        <maven.surefire.junit.platform.version>1.0.1</maven.surefire.junit.platform.version>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <sourceDirectory>${r"${project.basedir}"}/src/main/resources/schema</sourceDirectory>
+                    <targetPackage>${gCtx.groupId}.${gCtx.packageName}.model</targetPackage>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>1.11.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${r"${project.basedir}"}/src/main/avro/</sourceDirectory>
+                            <outputDirectory>${r"${project.basedir}"}/src/main/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+

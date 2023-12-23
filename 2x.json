@@ -1,0 +1,74 @@
+{
+  "asyncapi": "2.6.0",
+  "info": {
+    "title": "Async API Specification Document for Application",
+    "version": "1.0",
+    "description": "Async API Specification Document for Application",
+    "contact": {
+      "name": "",
+      "url": "",
+      "email": ""
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": ""
+    }
+  },
+  "servers": {
+    "cluster": {
+      "url": "localhost:9092",
+      "protocol": "kafka",
+      "protocolVersion": "",
+      "description": "kafka broker instance",
+      "security": [],
+      "bindings": {}
+    },
+    "schema-registry": {
+      "url": "http://localhost:8081",
+      "protocol": "kafka",
+      "protocolVersion": "",
+      "description": "kafka schema registry server",
+      "security": [],
+      "bindings": {}
+    }
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "test-rep": {
+      "servers": [
+        "cluster"
+      ],
+      "subscribe": {
+        "operationId": "test-repSubscribeMessage",
+        "message": {
+          "$ref": "#/components/messages/account"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "messages": {
+      "account": {
+        "payload": {
+          "name": "account",
+          "type": "record",
+          "fields": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "money",
+              "type": "int",
+              "default": 20000
+            }
+          ]
+        },
+        "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
+        "contentType": "application/json",
+        "name": "account"
+      }
+    }
+  }
+}
