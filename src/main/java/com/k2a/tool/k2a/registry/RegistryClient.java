@@ -1,13 +1,14 @@
 package com.k2a.tool.k2a.registry;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.k2a.tool.k2a.registry.models.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -35,11 +36,8 @@ public class RegistryClient {
     }
 
     public <T> T httpGet(String url, Class<T> clazz) {
-        HttpResponse<String> resp = getStringHttpResponse(URI.create(url), client);
-        if (resp.statusCode() != 200) {
-            throw new RuntimeException("request fail, status code:" + resp.statusCode() + ", error msg:" + resp.body());
-        }
         try {
+            HttpResponse<String> resp = getStringHttpResponse(URI.create(url), client);
             return om.readValue(resp.body(), clazz);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -47,23 +45,21 @@ public class RegistryClient {
     }
 
     public <T> T httpGet(String url, TypeReference<T> reference) {
-        HttpResponse<String> resp = getStringHttpResponse(URI.create(url), client);
-        if (resp.statusCode() != 200) {
-            throw new RuntimeException("request fail, status code:" + resp.statusCode() + ", error msg:" + resp.body());
-        }
         try {
+            HttpResponse<String> resp = getStringHttpResponse(URI.create(url), client);
             return om.readValue(resp.body(), reference);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private HttpResponse<String> getStringHttpResponse(URI url, HttpClient client) {
-        try {
-            HttpRequest request = HttpRequest.newBuilder().uri(url).build();
-            return client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+    private HttpResponse<String> getStringHttpResponse(URI url, HttpClient client) throws IOException, InterruptedException {
+        HttpResponse<String> response = null;
+        HttpRequest request = HttpRequest.newBuilder().uri(url).build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        Assert.notNull(response, "ERROR: request fail, url:" + url);
+        Assert.isTrue(response.statusCode() == 200, "ERROR: request fail, status code:" + response.statusCode() + ", error msg:" + response.body());
+        return response;
     }
 }
