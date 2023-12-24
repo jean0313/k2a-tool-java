@@ -1,5 +1,6 @@
 package com.k2a.tool.gen.renders;
 
+import com.k2a.tool.gen.TemplateRender;
 import com.k2a.tool.gen.models.GenerateContext;
 import com.k2a.tool.gen.models.GlobalContext;
 import com.k2a.tool.gen.renders.methods.Capitalize;
@@ -17,11 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class TemplateRender {
+public class TemplateRenderImpl implements TemplateRender {
 
     private final Configuration cfg = new Configuration(Configuration.VERSION_2_3_32);
 
-    public TemplateRender(TemplateLoader loader) {
+    public TemplateRenderImpl(TemplateLoader loader) {
         cfg.setTemplateLoader(loader);
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);

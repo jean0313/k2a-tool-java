@@ -2,6 +2,7 @@ package com.k2a.tool.k2a.registry;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.k2a.tool.k2a.RegistryClient;
 import com.k2a.tool.k2a.registry.models.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 @Component
-public class RegistryClient {
+public class RegistryClientImpl implements RegistryClient {
 
     @Value("${schema-registry-url:http://localhost:8081}")
     private String registryUrl;

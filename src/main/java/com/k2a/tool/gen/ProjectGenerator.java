@@ -6,7 +6,6 @@ import com.k2a.tool.gen.models.GenerateContext;
 import com.k2a.tool.gen.models.GlobalContext;
 import com.k2a.tool.gen.renders.TemplateMeta;
 import com.k2a.tool.gen.renders.TemplateMetaManager;
-import com.k2a.tool.gen.renders.TemplateRender;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

@@ -5,7 +5,7 @@ import com.k2a.tool.gen.models.GlobalContext;
 import com.k2a.tool.gen.parsers.SpecificationParser;
 import com.k2a.tool.gen.parsers.SpecificationParserFactory;
 import com.k2a.tool.gen.renders.TemplateMetaManager;
-import com.k2a.tool.gen.renders.TemplateRender;
+import com.k2a.tool.gen.renders.TemplateRenderImpl;
 import freemarker.cache.TemplateLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public class ProjectGenerateService {
         SpecificationParser parser = parserFactory.create(content);
         List<GenerateContext> ctxes = parser.parse();
         ProjectGenerator generator = new ProjectGenerator(ctxes, gCtx,
-                new TemplateRender(loader),
+                new TemplateRenderImpl(loader),
                 templateMetaManager);
         generator.generateProject();
     }
