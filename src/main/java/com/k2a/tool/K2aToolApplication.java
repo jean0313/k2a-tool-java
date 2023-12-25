@@ -2,10 +2,6 @@ package com.k2a.tool;
 
 import com.k2a.tool.gen.ProjectGenerateService;
 import com.k2a.tool.gen.models.GlobalContext;
-import com.k2a.tool.k2a.SpecGenerateService;
-import com.k2a.tool.k2a.kafka.KafkaClientImpl;
-import com.k2a.tool.k2a.registry.RegistryClientImpl;
-import freemarker.cache.TemplateLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,19 +17,6 @@ public class K2aToolApplication implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(K2aToolApplication.class, args);
     }
-
-
-    @Autowired
-    RegistryClientImpl client;
-
-    @Autowired
-    KafkaClientImpl kafkaClient;
-
-    @Autowired
-    SpecGenerateService service;
-
-    @Autowired
-    TemplateLoader loader;
 
     @Autowired
     private ProjectGenerateService projectGenerateService;

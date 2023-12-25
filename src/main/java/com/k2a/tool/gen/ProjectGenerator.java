@@ -6,6 +6,7 @@ import com.k2a.tool.gen.models.GenerateContext;
 import com.k2a.tool.gen.models.GlobalContext;
 import com.k2a.tool.gen.renders.TemplateMeta;
 import com.k2a.tool.gen.renders.TemplateMetaManager;
+import org.springframework.util.StringUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -15,13 +16,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ProjectGenerator {
-    private List<GenerateContext> ctxes;
+    private final List<GenerateContext> ctxes;
 
-    private GlobalContext gCtx;
+    private final GlobalContext gCtx;
 
-    private TemplateRender render;
+    private final TemplateRender render;
 
-    private TemplateMetaManager templateMetaManager;
+    private final TemplateMetaManager templateMetaManager;
 
     public ProjectGenerator(List<GenerateContext> ctxes,
                             GlobalContext gCtx,
@@ -52,14 +53,16 @@ public class ProjectGenerator {
         String avroDir = String.join(File.separator, destDir, artifactId, "src", "main", "resources", "avro");
         new File(avroDir).mkdirs();
 
-        String dir = "";
+        String dir;
         for (GenerateContext ctx : ctxes) {
             String messageSchema = ctx.getMessageSchema();
             String schemaName = ctx.getSchemaName();
 
             if (SchemaFormat.json.equals(ctx.getMessageSchemaFormat())) {
                 dir = schemaDir;
+                schemaName = StringUtils.capitalize(schemaName);
             } else {
+                // for avro, class name comply with the name property in schema
                 dir = avroDir;
             }
 

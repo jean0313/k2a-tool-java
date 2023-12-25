@@ -1,8 +1,11 @@
 <#assign channelName = "${ctx.channelName}">
 <#assign schemaName = "${ctx.schemaName}">
+<#if ctx.messageSchemaFormat == "json">
+    <#assign schemaName = "${capitalize(ctx.schemaName)}">
+</#if>
 package ${gCtx.groupId}.${gCtx.packageName}.config;
 
-import ${gCtx.groupId}.${gCtx.packageName}.model.${ctx.schemaName};
+import ${gCtx.groupId}.${gCtx.packageName}.model.${schemaName};
 import com.ai.tx.core.util.AvroDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -24,7 +27,7 @@ public class ${toUpperCamelCase(channelName)}ConsumerConfig {
     @Value("${r"${spring.kafka.bootstrap-servers}"}")
     private String kafkaBroker;
 
-    @Bean
+    @Bean("${upperCaseChannelName}ConsumerFactory")
     public ConsumerFactory<String, ${schemaName}> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVER_CONFIG, kafkaBroker);
@@ -33,8 +36,8 @@ public class ${toUpperCamelCase(channelName)}ConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new AvroDeserializer<>(${schemaName}.class));
     }
 
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ${schemaName}>${toLowerCamelCase(channelName)}ConsumerFactoryConfig() {
+    @Bean("${upperCaseChannelName}ConsumerFactoryConfig")
+    public ConcurrentKafkaListenerContainerFactory<String, ${schemaName}> ${toLowerCamelCase(channelName)}ConsumerFactoryConfig() {
         ConcurrentKafkaListenerContainerFactory<String, ${schemaName}> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setErrorHandler(new SeekToCurrentErrorHandler());

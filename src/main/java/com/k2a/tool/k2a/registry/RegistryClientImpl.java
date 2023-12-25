@@ -25,7 +25,7 @@ public class RegistryClientImpl implements RegistryClient {
     @Autowired
     private ObjectMapper om;
 
-    private HttpClient client = HttpClient.newBuilder().build();
+    private final HttpClient client = HttpClient.newBuilder().build();
 
     public List<String> listSubjects() {
         return httpGet(registryUrl + "/subjects", new TypeReference<>() {
@@ -55,7 +55,7 @@ public class RegistryClientImpl implements RegistryClient {
     }
 
     private HttpResponse<String> getStringHttpResponse(URI url, HttpClient client) throws IOException, InterruptedException {
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         HttpRequest request = HttpRequest.newBuilder().uri(url).build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
 

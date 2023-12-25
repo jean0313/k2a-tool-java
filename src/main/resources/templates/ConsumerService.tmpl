@@ -1,5 +1,8 @@
 <#assign channelName = "${ctx.channelName}">
 <#assign schemaName = "${ctx.schemaName}">
+<#if ctx.messageSchemaFormat == "json">
+    <#assign schemaName = "${capitalize(ctx.schemaName)}">
+</#if>
 <#assign upperCaseChannelName = "${toUpperCamelCase(channelName)}">
 <#assign lowerCaseChannelName = "${toLowerCamelCase(channelName)}">
 package ${gCtx.groupId}.${gCtx.packageName}.service;

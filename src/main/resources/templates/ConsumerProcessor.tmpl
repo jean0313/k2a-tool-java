@@ -1,5 +1,8 @@
 <#assign channelName = "${ctx.channelName}">
 <#assign schemaName = "${ctx.schemaName}">
+<#if ctx.messageSchemaFormat == "json">
+    <#assign schemaName = "${capitalize(ctx.schemaName)}">
+</#if>
 package ${gCtx.groupId}.${gCtx.packageName}.consumer.processing;
 
 import ${gCtx.groupId}.${gCtx.packageName}.model.${schemaName};
