@@ -62,7 +62,6 @@ public class ProjectGenerator {
                 dir = schemaDir;
                 schemaName = StringUtils.capitalize(schemaName);
             } else {
-                // for avro, class name comply with the name property in schema
                 dir = avroDir;
             }
 
@@ -83,10 +82,7 @@ public class ProjectGenerator {
                 .filter(meta -> meta.getType().equals(GenType.common))
                 .forEach(meta -> {
                     String filePath = meta.createFilePath(packageBase);
-                    render.renderCommonTemplate(
-                            meta.getTemplateName(),
-                            filePath,
-                            gCtx);
+                    render.renderCommonTemplate(meta.getTemplateName(), filePath, gCtx);
                 });
 
         for (GenerateContext ctx : ctxes) {
@@ -94,11 +90,7 @@ public class ProjectGenerator {
                     .filter(meta -> !meta.getType().equals(GenType.common))
                     .forEach(meta -> {
                         String filePath = meta.createFilePath(packageBase, ctx);
-                        render.renderTemplate(
-                                meta.getTemplateName(),
-                                filePath,
-                                ctx,
-                                gCtx);
+                        render.renderTemplate(meta.getTemplateName(), filePath, ctx, gCtx);
                     });
         }
     }
