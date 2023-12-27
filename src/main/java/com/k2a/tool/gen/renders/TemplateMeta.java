@@ -15,26 +15,26 @@ public class TemplateMeta {
     // base on groupId/packageName/relativePath
     private String relativePath;
 
-    private NameFormater nameFormater;
+    private NameFormatter nameFormatter;
     private String fileName;
 
-    private TemplateMeta(GenType type, String templateName, String relativePath, NameFormater nameFormater) {
+    private TemplateMeta(GenType type, String templateName, String relativePath, NameFormatter nameFormatter) {
         this.type = type;
         this.templateName = templateName;
         this.relativePath = relativePath;
-        this.nameFormater = nameFormater;
+        this.nameFormatter = nameFormatter;
     }
 
-    public static TemplateMeta ofSubscribe(String templateName, String relativePath, NameFormater nameFormater) {
-        return new TemplateMeta(GenType.subscribe, templateName, relativePath, nameFormater);
+    public static TemplateMeta ofSubscribe(String templateName, String relativePath, NameFormatter nameFormatter) {
+        return new TemplateMeta(GenType.subscribe, templateName, relativePath, nameFormatter);
     }
 
-    public static TemplateMeta ofPublish(String templateName, String relativePath, NameFormater nameFormater) {
-        return new TemplateMeta(GenType.publish, templateName, relativePath, nameFormater);
+    public static TemplateMeta ofPublish(String templateName, String relativePath, NameFormatter nameFormatter) {
+        return new TemplateMeta(GenType.publish, templateName, relativePath, nameFormatter);
     }
 
-    public static TemplateMeta of(GenType type, String templateName, String relativePath, NameFormater nameFormater) {
-        return new TemplateMeta(type, templateName, relativePath, nameFormater);
+    public static TemplateMeta of(GenType type, String templateName, String relativePath, NameFormatter nameFormatter) {
+        return new TemplateMeta(type, templateName, relativePath, nameFormatter);
     }
 
     public TemplateMeta(GenType type, String templateName, String relativePath) {
@@ -77,8 +77,8 @@ public class TemplateMeta {
         new File(fileDir).mkdirs();
 
         String name = "";
-        if (nameFormater != null) {
-            name = nameFormater.format(ctx);
+        if (nameFormatter != null) {
+            name = nameFormatter.format(ctx);
         } else if (StringUtils.hasLength(fileName)) {
             name = fileName;
         } else {
