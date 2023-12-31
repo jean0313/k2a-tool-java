@@ -1,0 +1,20 @@
+{
+  "type": "record",
+  "namespace": "demo.kafka.event",
+  "name": "SendPayment",
+  "version": "1",
+  "maxmum": 1,
+  "fields": [
+    {
+      "name": "payment_id",
+      "type": "string",
+      "maxLength": 20,
+      "minLength": 10
+    },
+    {
+      "name": "amount",
+      "type": "double",
+      "maximum": 321.12
+    }
+  ]
+}

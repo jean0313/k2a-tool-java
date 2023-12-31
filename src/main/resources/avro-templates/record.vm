@@ -115,9 +115,23 @@ public class ${this.mangleTypeIdentifier($schema.getName())}#if ($schema.isError
   }
 #end
 
+/** https://json-schema.org/draft-07/json-schema-validation#rfc.section.6 */
 #foreach ($field in $schema.getFields())
 #if ($field.doc())
   /** $field.doc() */
+#end
+#if ($field.getObjectProps().containsKey("maximum"))
+    @Max($field.getObjectProps().get("maximum"))
+#elseif ($field.getObjectProps().containsKey("minimum"))
+    @Min($field.getObjectProps().get("minimum"))
+#elseif ($field.getObjectProps().containsKey("maxLength") && $field.getObjectProps().containsKey("minLength"))
+    @Size(max=$field.getObjectProps().get("maxLength"), min=$field.getObjectProps().get("minLength"))
+#elseif ($field.getObjectProps().containsKey("maxLength"))
+    @Size(max=$field.getObjectProps().get("maxLength"))
+#elseif ($field.getObjectProps().containsKey("minLength"))
+    @Size(min=$field.getObjectProps().get("minLength"))
+#elseif ($field.getObjectProps().containsKey("pattern"))
+    @Pattern(regexp="$field.getObjectProps().get("pattern")")
 #end
 #foreach ($annotation in $this.javaAnnotations($field))
   @$annotation
